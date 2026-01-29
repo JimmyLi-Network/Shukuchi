@@ -24,11 +24,20 @@ Running 7B–70B models on commodity machines is often blocked by memory limits 
 
 ## Results (On-Going)
 
-| Model | Quant | Peak RSS | Prefetch Hit Rate | Notes |
-|---|---|---:|---:|---|
-| TinyLlama 1.1B | Q4_K_M | ~190 MB | ~95% | Metal matmul ~4x vs CPU |
-| Llama 3.1 8B | Q4_K_M | ~1.0 GB | low (Metal too fast vs I/O) | triple buffer, Metal enabled |
-| Llama 3.3 70B | Q4_K_M | ~3.5 GB | 0% (early tokens) | Q4/Q5/Q6 mix, Metal enabled |
+### Memory + Streaming
+
+| Model | Quant | Peak RSS | Layer Size | Buffer Depth | Prefetch Hit Rate | Notes |
+|---|---|---:|---:|---:|---:|---|
+| TinyLlama 1.1B | Q4_K_M | ~190 MB | ~28 MB | 2 | ~95% | streaming stable |
+| Llama 3.1 8B | Q4_K_M | ~1.0 GB | ~139 MB | 3 | 2–6% | I/O-bound on Metal |
+| Llama 3.3 70B | Q4_K_M | ~3.5 GB | ~544 MB | 3 | ~0% (early tokens) | Q4/Q5/Q6 mix, streaming OK |
+
+### Throughput (TinyLlama 1.1B)
+
+| Backend | Tokens | Time | Tok/s | Notes |
+|---|---:|---:|---:|---|
+| CPU (naive) | 16 | ~35s | ~0.46 | baseline |
+| Metal Q4_K/Q6_K | 16 | ~8.8s | ~1.8 | ~4x speedup |
 
 ## In-Progress
 - Raise prefetch hit rate on large models (ahead=2/3, I/O batching, larger buffers).
@@ -73,9 +82,11 @@ If you use this project, please cite the repository:
 
 ```bibtex
 @misc{shukuchi2026,
-  title = {shukuchi: Streaming-First LLM Inference},
-  author = {shukuchi contributors},
-  year = {2026},
-  howpublished = {GitHub repository}
+  title        = {Shukuchi: Streaming Giant Models on Small Memory},
+  author       = {Jimmy Li and contributors},
+  year         = {2026},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/JimmyLi-Network/Shukuchi},
+  note         = {Accessed 2026-01-29}
 }
 ```

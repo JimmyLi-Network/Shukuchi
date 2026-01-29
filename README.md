@@ -1,9 +1,9 @@
-# Shukuchi: Efficient Inference in Memory Streaming for Resource-Constraint Devices (In-Progress)
+# Shukuchi: Streaming Giant Models on Small Memory
 
 ![shukuchi logo](logo.PNG)
 
 ## Abstract
-shukuchi is a streaming-first LLM inference engine that targets large models under tight memory budgets. It loads layers on demand, overlaps I/O with compute via prefetching, and executes quantized weights with CPU and Metal GPU backends.It can inference a Llama3-70B model using less than 4GB (< 4GB).
+shukuchi is a streaming-first LLM inference engine built to run giant models on machines with small memory. It loads one layer at a time, pipelines I/O with compute through prefetching, and executes quantized weights on both CPU and Metal GPU backends. The goal is pragmatic: keep peak RSS low while still delivering end‑to‑end generation on 7B–70B models (e.g., Llama 3.x 70B under ~4 GB RSS).
 
 ## Motivation
 Running 7B–70B models on commodity machines is often blocked by memory limits and inefficient I/O. shukuchi focuses on the core bottlenecks:

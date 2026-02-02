@@ -2,7 +2,7 @@
 
 **Status: In‑Progress (not complete).**
 
-![shukuchi logo](logo.PNG)
+![shukuchi logo](logo.jpg)
 
 ## Abstract
 Shukuchi is a streaming-first LLM inference engine built to run giant models on machines with small memory. It loads one layer at a time, pipelines I/O with compute through prefetching, and executes quantized weights on both CPU and Metal GPU backends. The goal is pragmatic: keep peak RSS low while still delivering end‑to‑end generation on 7B–70B models (e.g., Llama 3.x 70B under ~4 GB RSS).
